@@ -3,38 +3,25 @@ using namespace std;
 int main()
 {
 	ifstream f("figura.in");
-	int D, N;
+	int D, N, imin, imax, jmin, jmax;
 	f >> D >> N;
-	int a[D+1][D+1];
-	for (int i = 0; i <= D; i++)
-		for (int j = 0; j <= D; j++)
-			a[i][j] = 0;
+	imin = jmin = D;
+	imax = jmax = 1;
 	while (N > 0)
 	{
 		int i, j;
 		f >> i >> j;
-		a[i][j] = 1;
+		if (i < imin) imin = i;
+		if (i > imax) imax = i;
+		if (j < jmin) jmin = j;
+		if (j > jmax) jmax = j;
 		N--;
 	}
 	f.close();
-	int lgmax = 0;
-	for (int i = 1; i <= D; i++)
-	{
-		int lg = 0;
-		for (int j = 1; j <= D; j++)
-			if (a[i][j]) lg++;
-		if (lg > lgmax) lgmax = lg;
-	}
-	int latmax = 0;
-	for (int j = 1; j <= D; j++)
-	{
-		int lat = 0;
-		for (int i = 1; i <= D; i++)
-			if (a[i][j]) lat++;
-		if (lat > latmax) latmax = lat;
-	}
+	int L = jmax-jmin+1;
+	int l = imax-imin+1;
 	ofstream g("figura.out");
-	g << 2*(latmax + lgmax);
+	g << 2*(L+l);
 	g.close();
 	return 0;
 }
